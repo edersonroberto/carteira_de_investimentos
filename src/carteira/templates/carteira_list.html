@@ -15,8 +15,8 @@
   </thead>
   <tbody>
     {% for object in object_list %}
+    {% include 'list-inline.html' %}
   	<tr>
-
        <th scope="row"><li><a href='{{ object.get_absolute_url}}'>{{ object.ticker}} </a></li></th>
        <td>{{object.nome}}</td>
        <td>{{object.setor}}</td>

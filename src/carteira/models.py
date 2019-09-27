@@ -26,12 +26,12 @@ class Transacao(models.Model):
 	dataVenda = models.DateField(null=True, blank=True)
 	valorVenda = models.DecimalField(null=True, blank=True, max_digits=5, decimal_places=2)
 
-	def get_absolut_url(self):
+	def get_edit_url(self):
 		#print(self)
-		return f"{self}/edit"
+		return "edit/"
 
-	#def get_delete_url(self):
-	#	return f"{ self.ticker}/delete"
+	def get_delete_url(self):
+		return "delete/"
 			
 
 class Dividendos(models.Model):

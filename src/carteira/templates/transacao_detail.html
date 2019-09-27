@@ -23,7 +23,7 @@
        <td>{{object.taxa}}</td>
        <td>{% if request.user.is_authenticated %}
               {% if request.user.is_staff %}
-                <a href='{{ object.get_absolut_url }}/edit'>Edit</a>
+                <a href='{{ object.get_edit_url }}'>Edit</a>
               {% endif %}
             {% endif %}
       </td>
