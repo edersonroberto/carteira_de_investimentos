@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title%} transacoes {% endblock %}
+
+{% block content %}
+	<h1>Detalhe das Transações</h1> </br>
+	<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Ticher</th>
+      <th scope="col">Data Compra</th>
+      <th scope="col">Quantidade</th>
+      <th scope="col">Taxa</th>
+      <th scope="col">Edit</th>
+      <th scope="col">Delete</th>
+    </tr>
+  </thead>
+  <tbody>
+  	<tr>
+       <th scope="row">{{object.ticker}}</th>
+       <td>{{object.dataCompra}}</td>
+       <td>{{object.quantidade}}</td>
+       <td>{{object.taxa}}</td>
+       <td>{% if request.user.is_authenticated %}
+              {% if request.user.is_staff %}
+                <a href='{{ object.get_absolut_url }}/edit'>Edit</a>
+              {% endif %}
+            {% endif %}
+      </td>
+      <td>{% if request.user.is_authenticated %}
+              {% if request.user.is_staff %}
+                <a href='{{ object.get_delete_url }}'>Delete</a>
+              {% endif %}
+            {% endif %}
+      </td>
+     </tr>
+  </tbody>
+</table>
+
+<!--	<h1>{{ object.ticker }}</h1> -->
+<!--	<h2>{{ object.dataCompra }}</h2> -->
+{% endblock %}

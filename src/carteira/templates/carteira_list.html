@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title%} transacoes {% endblock %}
+
+{% block content %}
+	<h1>Detalhes da Carteira</h1> </br>
+	<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Ticher</th>
+      <th scope="col">Nome</th>
+      <th scope="col">Setor</th>
+      <th scope="col">Tipo</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for object in object_list %}
+  	<tr>
+
+       <th scope="row"><li><a href='{{ object.get_absolute_url}}'>{{ object.ticker}} </a></li></th>
+       <td>{{object.nome}}</td>
+       <td>{{object.setor}}</td>
+       <td>{{object.tipo}}</td>
+     </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<!--	<h1>{{ object.ticker }}</h1> -->
+<!--	<h2>{{ object.dataCompra }}</h2> -->
+{% endblock %}
