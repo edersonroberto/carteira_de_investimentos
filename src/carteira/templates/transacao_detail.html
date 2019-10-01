@@ -23,13 +23,13 @@
        <td>{{object.taxa}}</td>
        <td>{% if request.user.is_authenticated %}
               {% if request.user.is_staff %}
-                <a href='{{ object.get_edit_url }}'>Edit</a>
+                <a href='/carteira/transacao/{{object.ticker}}/edit'>Edit</a>
               {% endif %}
             {% endif %}
       </td>
       <td>{% if request.user.is_authenticated %}
               {% if request.user.is_staff %}
-                <a href='{{ object.get_delete_url }}'>Delete</a>
+                <a href='/carteira/transacao/{{object.ticker}}/delete'>Delete</a>
               {% endif %}
             {% endif %}
       </td>

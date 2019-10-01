@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title%} transacoes {% endblock %}
+
+{% block content %}
+	<h1>Detalhes das Transações</h1> </br>
+	<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Ticher</th>
+      <th scope="col">Data Compra</th>
+      <th scope="col">Valor Compra</th>
+      <th scope="col">Quantidade</th>
+      <th scope="col">Taxa</th>
+      <th scope="col">Data Venda</th>
+      <th scope="col">Valor Venda</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for object in object_list %}
+    {% include 'list-inline.html' %}
+  	<tr>
+       <th scope="row"><li><a href='{{ object.get_absolute_url}}'>{{ object.ticker}} </a></li></th>
+       <td>{{object.dataCompra}}</td>
+       <td>{{object.valorCompra}}</td>
+       <td>{{object.quantidade}}</td>
+       <td>{{object.taxa}}</td>
+       <td>{{object.dataVenda}}</td>
+       <td>{{object.valorVenda}}</td>
+     </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<!--	<h1>{{ object.ticker }}</h1> -->
+<!--	<h2>{{ object.dataCompra }}</h2> -->
+{% endblock %}

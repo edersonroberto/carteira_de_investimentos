@@ -18,12 +18,14 @@ from django.urls import path, re_path
 from django.conf.urls import include
 
 from .views import (home_page, contact_page)
-from carteira.views import (carteira_create_view)
+from carteira.views import (carteira_create_view, carteira_update_view, carteira_delete_view)
 
 
 urlpatterns = [
     path('carteira/', include('carteira.urls')),
     path('carteira-new/', carteira_create_view),
+    path('carteira_update/<str:ticker>', carteira_update_view),
+    path('carteira_delete/<str:ticker>', carteira_delete_view),
 	path('home/', home_page),
     path('contact/', contact_page),
     path('admin/', admin.site.urls),
