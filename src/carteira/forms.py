@@ -1,6 +1,7 @@
 from django import forms
-from .models import Transacao, Carteira
+from .models import Transacao, Ticker
 
+'''
 class TransacaoForm(forms.Form):
 	ticker = forms.SlugField()
 	dataCompra = forms.DateField()
@@ -9,6 +10,7 @@ class TransacaoForm(forms.Form):
 	taxa = forms.DecimalField()
 	dataVenda = forms.DateField(required=False)
 	valorVenda = forms.DecimalField(required=False)
+'''
 
 
 class TransacaoFormModel(forms.ModelForm):
@@ -17,11 +19,12 @@ class TransacaoFormModel(forms.ModelForm):
 		fields = ['ticker', 'dataCompra', 'valorCompra', 'quantidade', 'taxa', 'dataVenda', 'valorVenda']
 	
 
-class CarteiraFormModel(forms.ModelForm):
+class TickerFormModel(forms.ModelForm):
 	class Meta:
-		model = Carteira
+		model = Ticker
 		fields = ['ticker', 'nome', 'setor', 'tipo']
 
+	'''
 	def clean_ticker(self, *args, **kwargs):
 		instance = self.instance
 		print(instance)
@@ -32,3 +35,4 @@ class CarteiraFormModel(forms.ModelForm):
 		if qs.exists():
 			raise forms.ValidationError("This ticker is already been use")
 		return ticker
+	'''	

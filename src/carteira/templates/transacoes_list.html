@@ -20,7 +20,7 @@
     {% for object in object_list %}
     {% include 'list-inline.html' %}
   	<tr>
-       <th scope="row"><li><a href='{{ object.get_absolute_url}}'>{{ object.ticker}} </a></li></th>
+       <th scope="row"><li><a href='/carteira/transacao/{{object.ticker}}'>{{ object.ticker}} </a></li></th>
        <td>{{object.dataCompra}}</td>
        <td>{{object.valorCompra}}</td>
        <td>{{object.quantidade}}</td>

@@ -1,10 +1,10 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
-
+from django.db.models import Sum
 # Create your views here.
-from .models import Transacao, Carteira
-from .forms import TransacaoForm, TransacaoFormModel, CarteiraFormModel
+from .models import Transacao, Ticker
+from .forms import TransacaoFormModel, TickerFormModel #TransacaoForm,
 # transacao = Transacao.objects.get(id=1)
 
 
@@ -14,17 +14,19 @@ def carteira_list_view(request):
 	#print("Django Says: ", request.method, request.path, request.user)
 	if not request.user.is_authenticated:
 		return render(request, "not-a-user.html", {})
-	qs = Carteira.objects.all() # -> list of python objects
+	qs = Transacao.objects.all() # -> list of python objects
+	soma = Transacao.objects.all().aggregate(Sum('taxa'))
+	print(soma)
 	template_name = 'carteira_list.html'
 	context = {'object_list': qs}
 	return render(request, template_name, context)
 
 
 def carteira_create_view(request):
-	form = CarteiraFormModel(request.POST or None)
+	form = TickerFormModel(request.POST or None)
 	if form.is_valid():
 		form.save()
-		form = CarteiraFormModel()
+		form = TickerFormModel()
 	template_name = 'carteira_create.html'
 	context = {'form': form}
 	return render(request, template_name, context)
@@ -32,7 +34,7 @@ def carteira_create_view(request):
 
 def carteira_update_view(request, ticker):
 	#print("Django Says: ", request.method, request.path, request.user)
-	obj = get_object_or_404(Carteira, ticker=ticker)
+	obj = get_object_or_404(Ticker, ticker=ticker)
 	template_name = 'carteira_update.html' 
 	context = {"object": obj}
 	return render(request, template_name, context)
@@ -40,7 +42,7 @@ def carteira_update_view(request, ticker):
 
 @staff_member_required()
 def carteira_delete_view(request, ticker):
-	obj = get_object_or_404(Carteira, ticker=ticker)
+	obj = get_object_or_404(Ticker, ticker=ticker)
 	template_name = 'carteira_delete.html'
 	if request.method == "POST":
 		obj.delete()
@@ -63,6 +65,7 @@ def transacao_list_view(request):
 	#if not request.user.is_authenticated:
 	#	return render(request, "not-a-user.html", {})
 	qs = Transacao.objects.all() # -> list of python objects
+	#print(qs[0].carteira.id)
 	template_name = 'transacoes_list.html'
 	context = {'object_list': qs}
 	return render(request, template_name, context)

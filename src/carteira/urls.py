@@ -18,7 +18,6 @@ urlpatterns = [
    # path('transacao-retrieve/', transacao_create_view),
     path('transacao/<str:ticker>/edit/', transacao_update_view),
     path('transacao/<str:ticker>/delete/', transacao_delete_view),
-    path('<str:ticker>/delete/', carteira_delete_view),
     path('transacao/<str:ticker>/', transacao_detail_page),
     path('', carteira_list_view),
 ]

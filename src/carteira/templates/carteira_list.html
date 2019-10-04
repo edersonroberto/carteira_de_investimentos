@@ -11,18 +11,22 @@
       <th scope="col">Nome</th>
       <th scope="col">Setor</th>
       <th scope="col">Tipo</th>
+      <th scope="col">Quantidade</th>
+      <th scope="col">Preço Médio</th>
       <th scope="col">Editar</th>
       <th scope="col">Deletar</th>
     </tr>
   </thead>
   <tbody>
-    {% for object in object_list %}
-    {% include 'list-inline.html' %}
+    {% for object in object_list %} 
+    <!-- {% include 'list-inline.html' %} -->
   	<tr>
        <th scope="row"><li><a href='/carteira/transacao/{{object.ticker}}'>{{ object.ticker}} </a></li></th>
        <td>{{object.nome}}</td>
        <td>{{object.setor}}</td>
        <td>{{object.tipo}}</td>
+
+       <td></td>
        <td><a href='/carteira_update/{{object.ticker}}'>Editar</a></td>
        <td><a href='/carteira_delete/{{object.ticker}}'>Deletar</a></td>
      </tr>
