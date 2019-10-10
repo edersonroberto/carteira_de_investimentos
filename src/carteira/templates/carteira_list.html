@@ -21,14 +21,14 @@
     {% for object in object_list %} 
     <!-- {% include 'list-inline.html' %} -->
   	<tr>
-       <th scope="row"><li><a href='/carteira/transacao/{{object.ticker}}'>{{ object.ticker}} </a></li></th>
-       <td>{{object.nome}}</td>
-       <td>{{object.setor}}</td>
-       <td>{{object.tipo}}</td>
-
-       <td></td>
-       <td><a href='/carteira_update/{{object.ticker}}'>Editar</a></td>
-       <td><a href='/carteira_delete/{{object.ticker}}'>Deletar</a></td>
+       <th scope="row"><li><a href='/carteira/transacao/{{object.ticker__ticker}}'>{{ object.ticker__ticker}} </a></li></th>
+       <td>{{object.ticker__nome}}</td>
+       <td>{{object.ticker__setor}}</td>
+       <td>{{object.ticker__tipo}}</td>
+       <td>{{object.quantidade__sum}}</td>
+       <td>{{object.preco_medio|floatformat:2}}</td>
+       <td><a href='/carteira_update/{{object.ticker__ticker}}'>Editar</a></td>
+       <td><a href='/carteira_delete/{{object.ticker__ticker}}'>Deletar</a></td>
      </tr>
     {% endfor %}
   </tbody>

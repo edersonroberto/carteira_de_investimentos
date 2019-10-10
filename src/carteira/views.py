@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
-from django.db.models import Sum
+from django.db.models import Sum, FloatField, F
 # Create your views here.
 from .models import Transacao, Ticker
 from .forms import TransacaoFormModel, TickerFormModel #TransacaoForm,
@@ -14,9 +14,10 @@ def carteira_list_view(request):
 	#print("Django Says: ", request.method, request.path, request.user)
 	if not request.user.is_authenticated:
 		return render(request, "not-a-user.html", {})
-	qs = Transacao.objects.all() # -> list of python objects
-	soma = Transacao.objects.all().aggregate(Sum('taxa'))
-	print(soma)
+	#qs = Transacao.objects.all() # -> list of python objects
+	qs = Transacao.objects.values('ticker__ticker', 'ticker__nome', 'ticker__setor', 'ticker__tipo').annotate(
+		Sum('quantidade'), preco_medio=Sum(F('valorCompra') * F('quantidade'))  / Sum(F('quantidade')))
+	#print(str(qs.query))
 	template_name = 'carteira_list.html'
 	context = {'object_list': qs}
 	return render(request, template_name, context)
