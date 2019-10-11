@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title%} Dividendos {% endblock %}
+
+{% block content %}
+	<h1>Detalhes dos Dividendos</h1> </br>
+	<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Ticher</th>
+      <th scope="col">Data Dividendo</th>
+      <th scope="col">Data Pagamento</th>
+      <th scope="col">Valor por Cota</th>
+      <th scope="col">Valor Total</th>
+      <th scope="col">Data Venda</th>
+      <th scope="col">Valor Venda</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for object in object_list %}
+    {% include 'list-inline.html' %}
+  	<tr>
+       <th scope="row"><li><a href='/carteira/transacao/{{object.ticker}}'>{{ object.ticker}} </a></li></th>
+       <td>{{object.ticker}}</td>
+       <td>{{object.dataDividendo}}</td>
+       <td>{{object.dataPagamento}}</td>
+       <td>Vazio</td>
+       <td>Vazio</td>
+       <td>Vazio</td>
+     </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<!--	<h1>{{ object.ticker }}</h1> -->
+<!--	<h2>{{ object.dataCompra }}</h2> -->
+{% endblock %}

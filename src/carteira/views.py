@@ -3,8 +3,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
 from django.db.models import Sum, FloatField, F
 # Create your views here.
-from .models import Transacao, Ticker
-from .forms import TransacaoFormModel, TickerFormModel #TransacaoForm,
+from .models import Transacao, Ticker, Dividendos
+from .forms import TransacaoFormModel, TickerFormModel, DividendoFormModel #TransacaoForm,
 # transacao = Transacao.objects.get(id=1)
 
 
@@ -16,8 +16,9 @@ def carteira_list_view(request):
 		return render(request, "not-a-user.html", {})
 	#qs = Transacao.objects.all() # -> list of python objects
 	qs = Transacao.objects.values('ticker__ticker', 'ticker__nome', 'ticker__setor', 'ticker__tipo').annotate(
-		Sum('quantidade'), preco_medio=Sum(F('valorCompra') * F('quantidade'))  / Sum(F('quantidade')))
-	#print(str(qs.query))
+		Sum('quantidade'), preco_medio=Sum(F('valorCompra') * F('quantidade'))  / Sum(F('quantidade'))
+		,total_taxa=Sum('taxa'), total_pago=Sum((F('valorCompra') * F('quantidade')) + F('taxa')))
+	print(str(qs.query))
 	template_name = 'carteira_list.html'
 	context = {'object_list': qs}
 	return render(request, template_name, context)
@@ -42,8 +43,8 @@ def carteira_update_view(request, ticker):
 
 
 @staff_member_required()
-def carteira_delete_view(request, ticker):
-	obj = get_object_or_404(Ticker, ticker=ticker)
+def carteira_delete_view(request, id):
+	obj = get_object_or_404(Ticker, id=id)
 	template_name = 'carteira_delete.html'
 	if request.method == "POST":
 		obj.delete()
@@ -54,10 +55,12 @@ def carteira_delete_view(request, ticker):
 
 def transacao_detail_page(request, ticker):
 	#obj = Transacao.objects.get(id=id) #--> query , database django render it
-	print(type(ticker))
-	obj = get_object_or_404(Transacao, ticker=ticker)
+	codigo_ticker = Ticker.objects.get(ticker=ticker)
+	print(codigo_ticker)
+	#obj = get_object_or_404(Transacao, ticker=codigo_ticker.id)
+	qs = Transacao.objects.all().filter(ticker=codigo_ticker.id)
 	template_name = 'transacao_detail.html' 
-	context = {"object": obj}
+	context = {"object_list": qs}
 	return render(request, template_name, context)
 
 
@@ -89,31 +92,49 @@ def transacao_create_view(request):
 	context = {'form': form}
 	return render(request, template_name, context)
 
-
+'''
 def transacao_retrieve_view(request, ticker):
 	obj = get_object_or_404(Transacao, ticker=ticker)
 	template_name = 'transacao_retrieve.html' 
 	context = {"object": obj}
 	return render(request, template_name, context)
-
+'''
 
 @staff_member_required()
-def transacao_update_view(request, ticker):
-	obj = get_object_or_404(Transacao, ticker=ticker)
+def transacao_update_view(request, id):
+	obj = get_object_or_404(Transacao, id=id)
 	form = TransacaoFormModel(request.POST or None, instance=obj)
 	if form.is_valid():
 		form.save()
+		return redirect("/carteira/transacao_list/")
 	template_name = 'transacao_update.html'
 	context = {'form': form, "title": f"Update {obj.ticker}"}
 	return render(request, template_name, context)
 
 @staff_member_required()
-def transacao_delete_view(request, ticker):
-	obj = get_object_or_404(Transacao, ticker=ticker)
+def transacao_delete_view(request, id):
+	obj = get_object_or_404(Transacao, id=id)
 	template_name = 'transacao_delete.html'
 	if request.method == "POST":
 		obj.delete()
 		return redirect("/carteira")
 	context = {"object": obj}
+	return render(request, template_name, context)
+
+
+def dividendos_list_view(request):
+	qs = Dividendos.objects.all()
+	template_name = 'dividendos_list.html'
+	context = {"objtect_list": qs}
+	return render(request, template_name, context)
+
+
+def dividendo_create_view(request):
+	form = DividendoFormModel(request.POST or None)
+	if form.is_valid():
+		form.save()
+		form = DividendoFormModel()
+	template_name = 'dividendo_create.html'
+	context = {'form': form}
 	return render(request, template_name, context)
 

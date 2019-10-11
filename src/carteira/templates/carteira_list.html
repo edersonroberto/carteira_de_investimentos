@@ -13,8 +13,9 @@
       <th scope="col">Tipo</th>
       <th scope="col">Quantidade</th>
       <th scope="col">Preço Médio</th>
-      <th scope="col">Editar</th>
-      <th scope="col">Deletar</th>
+      <th scope="col">Total Taxa</th>
+      <th scope="col">Total Pago</th>
+      <th scope="col">Total Hoje</th>
     </tr>
   </thead>
   <tbody>
@@ -27,8 +28,9 @@
        <td>{{object.ticker__tipo}}</td>
        <td>{{object.quantidade__sum}}</td>
        <td>{{object.preco_medio|floatformat:2}}</td>
-       <td><a href='/carteira_update/{{object.ticker__ticker}}'>Editar</a></td>
-       <td><a href='/carteira_delete/{{object.ticker__ticker}}'>Deletar</a></td>
+       <td>{{object.total_taxa|floatformat:2}}</td>
+       <td>{{object.total_pago|floatformat:2}}</td>
+       <td></td>
      </tr>
     {% endfor %}
   </tbody>

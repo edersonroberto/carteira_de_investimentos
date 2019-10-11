@@ -1,5 +1,5 @@
 from django import forms
-from .models import Transacao, Ticker
+from .models import Transacao, Ticker, Dividendos
 
 '''
 class TransacaoForm(forms.Form):
@@ -17,12 +17,20 @@ class TransacaoFormModel(forms.ModelForm):
 	class Meta:
 		model = Transacao
 		fields = ['ticker', 'dataCompra', 'valorCompra', 'quantidade', 'taxa', 'dataVenda', 'valorVenda']
-	
-
+		#exclude = ['ticker']
+		#fields = '__all__'
+		
 class TickerFormModel(forms.ModelForm):
 	class Meta:
 		model = Ticker
 		fields = ['ticker', 'nome', 'setor', 'tipo']
+
+
+class DividendoFormModel(forms.ModelForm):
+	class Meta:
+		model = Dividendos
+		fields = ['ticker', 'dataDividendo', 'dataPagamento', 'dividendos']
+
 
 	'''
 	def clean_ticker(self, *args, **kwargs):

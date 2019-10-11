@@ -21,7 +21,7 @@ class Ticker(models.Model):
 class Transacao(models.Model):
 	#ticker = models.SlugField()
 	dataCompra = models.DateField()
-	valorCompra = models.DecimalField(max_digits=5, decimal_places=2)
+	valorCompra = models.DecimalField(max_digits=7, decimal_places=2)
 	quantidade = models.DecimalField(max_digits=4, decimal_places=0)
 	taxa = models.DecimalField(max_digits=5, decimal_places=2)
 	dataVenda = models.DateField(null=True, blank=True)
