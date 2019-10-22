@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title%} carteira {% endblock %}
+
+{% block content %}
+	<h1>Detalhes da Carteira</h1> </br>
+	<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Ticher</th>
+      <th scope="col">Nome</th>
+      <th scope="col">Setor</th>
+      <th scope="col">Tipo</th>
+      <th scope="col">Edit</th>
+      <th scope="col">Delete</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for object in object_list %} 
+    <!-- {% include 'list-inline.html' %} -->
+  	<tr>
+       <th>{{object.ticker}}</th>
+       <td>{{object.nome}}</td>
+       <td>{{object.setor}}</td>
+       <td>{{object.tipo}}</td>
+       <td><a href='/carteira/ticker/{{object.id}}/edit'>Edit</a></td>
+       <td> <a href='/carteira/ticker/{{object.id}}/delete'>Delete</a></td>
+       <td></td>
+     </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<!--	<h1>{{ object.ticker }}</h1> -->
+<!--	<h2>{{ object.dataCompra }}</h2> -->
+{% endblock %}

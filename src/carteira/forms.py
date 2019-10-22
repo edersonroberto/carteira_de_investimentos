@@ -19,7 +19,7 @@ class TransacaoFormModel(forms.ModelForm):
 		fields = ['ticker', 'dataCompra', 'valorCompra', 'quantidade', 'taxa', 'dataVenda', 'valorVenda']
 		#exclude = ['ticker']
 		#fields = '__all__'
-		
+		 
 class TickerFormModel(forms.ModelForm):
 	class Meta:
 		model = Ticker

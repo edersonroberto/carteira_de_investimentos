@@ -6,7 +6,10 @@ from django.db.models import Sum, FloatField, F
 from .models import Transacao, Ticker, Dividendos
 from .forms import TransacaoFormModel, TickerFormModel, DividendoFormModel #TransacaoForm,
 # transacao = Transacao.objects.get(id=1)
+import requests
 
+
+KEY = '218a7497'
 
 @staff_member_required()
 @login_required()
@@ -56,11 +59,16 @@ def carteira_delete_view(request, id):
 def transacao_detail_page(request, ticker):
 	#obj = Transacao.objects.get(id=id) #--> query , database django render it
 	codigo_ticker = Ticker.objects.get(ticker=ticker)
-	print(codigo_ticker)
+	#print(type(codigo_ticker))
+	rqt = 'https://api.hgbrasil.com/finance/stock_price?key='+KEY+'&symbol='+ticker
+	response = requests.get(rqt)
+	acao = response.json()
+	print(acao.get('results').get(ticker).get('price'))
 	#obj = get_object_or_404(Transacao, ticker=codigo_ticker.id)
-	qs = Transacao.objects.all().filter(ticker=codigo_ticker.id)
+	qs = Transacao.objects.all().filter(ticker=codigo_ticker.id).annotate(total_pago=Sum('quantidade') * Sum('valorCompra') + ('taxa'))
+
 	template_name = 'transacao_detail.html' 
-	context = {"object_list": qs}
+	context = {"object_list": qs, "price": acao.get('results').get(ticker).get('price')}
 	return render(request, template_name, context)
 
 
@@ -68,10 +76,29 @@ def transacao_list_view(request):
 	#print("Django Says: ", request.method, request.path, request.user)
 	#if not request.user.is_authenticated:
 	#	return render(request, "not-a-user.html", {})
-	qs = Transacao.objects.all() # -> list of python objects
+	qs = Transacao.objects.all().order_by('dataCompra') # -> list of python objects
 	#print(qs[0].carteira.id)
 	template_name = 'transacoes_list.html'
 	context = {'object_list': qs}
+	return render(request, template_name, context)
+
+def ticker_list_view(request):
+	#print("Django Says: ", request.method, request.path, request.user)
+	#if not request.user.is_authenticated:
+	#	return render(request, "not-a-user.html", {})
+	qs = Ticker.objects.all().order_by('ticker') # -> list of python objects
+	#print(qs[0].carteira.id)
+	template_name = 'ticker_list.html'
+	context = {'object_list': qs}
+	return render(request, template_name, context)
+
+def ticker_delete_view(request, id):
+	obj = get_object_or_404(Ticker, id=id)
+	template_name = 'ticker_delete.html'
+	if request.method == "POST":
+		obj.delete()
+		return redirect("/carteira")
+	context = {"object": obj}
 	return render(request, template_name, context)
 
 
@@ -124,6 +151,7 @@ def transacao_delete_view(request, id):
 
 def dividendos_list_view(request):
 	qs = Dividendos.objects.all()
+	print(qs[0].dataDividendo)
 	template_name = 'dividendos_list.html'
 	context = {"objtect_list": qs}
 	return render(request, template_name, context)
