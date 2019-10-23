@@ -153,7 +153,7 @@ def dividendos_list_view(request):
 	qs = Dividendos.objects.all()
 	print(qs[0].dataDividendo)
 	template_name = 'dividendos_list.html'
-	context = {"objtect_list": qs}
+	context = {"object_list": qs}
 	return render(request, template_name, context)
 
 

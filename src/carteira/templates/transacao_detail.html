@@ -30,13 +30,13 @@
        <td>{{price}}</td>
        <td>{% if request.user.is_authenticated %}
               {% if request.user.is_staff %}
-                <a href='/carteira/transacao/{{object.id}}/edit'>Edit</a>
+                <a href='/carteira/transacao/{{object.id}}/edit'><i class="fas fa-edit"></i></a>
               {% endif %}
             {% endif %}
       </td>
       <td>{% if request.user.is_authenticated %}
               {% if request.user.is_staff %}
-                <a href='/carteira/transacao/{{object.id}}/delete'>Delete</a>
+                <a href='/carteira/transacao/{{object.id}}/delete'><i class='fas fa-eraser' style='font-size:20px;color:red'></i></a>
               {% endif %}
             {% endif %}
       </td>

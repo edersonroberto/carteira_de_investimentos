@@ -3,7 +3,7 @@
 {% block title%} Dividendos {% endblock %}
 
 {% block content %}
-	<h1>Detalhes dos Dividendos</h1> </br>
+	<h1>Detalhes dos Dividendos </h1> </br>
 	<table class="table">
     <thead>
       <tr>
@@ -12,17 +12,21 @@
         <th scope="col">Data Pagamento</th>
         <th scope="col">Valor por Cota</th>
         <th scope="col">Valor Total</th>
+        <th scope="col">Editar</th>
+        <th scope="col">Deletar</th>
       </tr>
     </thead>
     <tbody>
       {% for object in object_list %}
-      {% include 'list-inline.html' %}
+      <!-- {% include 'list-inline.html' %} -->
     	<tr>
-         <th scope="row"><li><a href='/carteira/transacao/{{object.ticker}}'>{{object.ticker}} </a></li></th>
-         <td>{{object.dataDividendo}}</td>
-         <td>{{object.dataPagamento}}</td>
+         <td>{{object.ticker}}</td>
+         <td>{{object.dataDividendo|date:"d M, Y"}}</td>
+         <td>{{object.dataPagamento|date:"d M, Y"}}</td>
+         <td>{{object.dividendos}}</td>
          <td>Vazio</td>
-         <td>Vazio</td>
+         <td><i class="fas fa-edit"></i></td>
+         <td><i class='fas fa-eraser' style='font-size:20px;color:red'></i></td>
        </tr>
       {% endfor %}
     </tbody>
